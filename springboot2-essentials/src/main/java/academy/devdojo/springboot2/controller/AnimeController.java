@@ -33,5 +33,6 @@ public class AnimeController {
     public ResponseEntity<Anime> findById() {
         log.info(dateUtil.formatLocalDateTimerToDatabaseSytle(LocalDateTime.now()));
         return ResponseEntity.ok(animeService.listAll().get(0)) ;
+        //teste
     }
 }
