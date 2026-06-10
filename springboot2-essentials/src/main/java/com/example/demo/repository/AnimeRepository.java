@@ -1,11 +1,12 @@
 package com.example.demo.repository;
 
 import com.example.demo.entities.Anime;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface AnimeRepository {
-    List<Anime> listAll();
+public interface AnimeRepository extends JpaRepository<Anime, Long> {
+
 }

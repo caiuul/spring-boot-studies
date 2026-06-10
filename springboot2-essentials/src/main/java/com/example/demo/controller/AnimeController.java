@@ -1,18 +1,17 @@
 package com.example.demo.controller;
 
 import com.example.demo.entities.Anime;
+import com.example.demo.request.AnimePostRequetBody;
+import com.example.demo.request.AnimePutRequetBody;
 import com.example.demo.services.AnimeService;
 import com.example.demo.util.DateUtil;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -33,19 +32,24 @@ public class AnimeController {
     }
 
     public ResponseEntity<Anime> findById(@PathVariable Long id) {
-        return new ResponseEntity(animeService.findById(id), HttpStatus.OK);
+        return new ResponseEntity(animeService.findByIdOrThrowBadRequestException(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody Anime anime) {
-        return  new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED);
+    public ResponseEntity<Anime> save(@RequestBody AnimePostRequetBody animePostRequetBody) {
+        return  new ResponseEntity<>(animeService.save(animePostRequetBody), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id){
         animeService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
+    @PutMapping
+    public ResponseEntity<Void> replace(@RequestBody AnimePutRequetBody animePutRequetBody){
+        animeService.replace(animePutRequetBody);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
     
