@@ -5,6 +5,7 @@ import com.example.demo.request.AnimePostRequetBody;
 import com.example.demo.request.AnimePutRequetBody;
 import com.example.demo.services.AnimeService;
 import com.example.demo.util.DateUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -31,12 +32,18 @@ public class AnimeController {
         return new ResponseEntity<>(animeService.listAll(), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/{id}")
     public ResponseEntity<Anime> findById(@PathVariable Long id) {
         return new ResponseEntity(animeService.findByIdOrThrowBadRequestException(id), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Anime>> findByName(@RequestParam String name) {
+        return new ResponseEntity(animeService.findbyName(name), HttpStatus.OK);
+    }
+
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody AnimePostRequetBody animePostRequetBody) {
+    public ResponseEntity<Anime> save(@RequestBody @Valid AnimePostRequetBody animePostRequetBody) {
         return  new ResponseEntity<>(animeService.save(animePostRequetBody), HttpStatus.CREATED);
     }
 
